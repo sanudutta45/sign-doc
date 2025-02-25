@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useCallback, useState } from "react"
 import DroppableViewer from "./DroppableViewer"
 import { Document, Page, pdfjs } from "react-pdf"
 import TextBox from "./TextBox"
@@ -7,42 +7,66 @@ import SignatureContainer from "./SignatureContainer"
 import ImageContainer from "./ImageContainer"
 import "react-pdf/dist/Page/TextLayer.css"
 import "react-pdf/dist/Page/AnnotationLayer.css"
+import { useResizeObserver } from "@wojtekmaj/react-hooks"
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/legacy/build/pdf.worker.min.mjs",
   import.meta.url
 ).toString()
 
+const options = {
+  cMapUrl: "/cmaps/",
+  standardFontDataUrl: "/standard_fonts/",
+}
+
+const resizeObserverOptions = {}
+
+const maxWidth = 800
+
 const PdfViewer = ({
   file,
   onDocumentLoadSuccess,
-  pdfRef,
   handleDrop,
   droppedItems,
   pageNumber,
   handleUpdate,
   removeItem,
-  handlePageNext,
   numPages,
-  handleScaling,
-  handlePagePrev,
-  scale,
   signature,
-  initial
+  initial,
 }) => {
+  const [containerRef, setContainerRef] = useState(null)
+  const [containerWidth, setContainerWidth] = useState()
+
+  const onResize = useCallback((entries) => {
+    const [entry] = entries
+
+    if (entry) {
+      setContainerWidth(Math.min(entry.contentRect.width, maxWidth))
+    }
+  }, [])
+
+  useResizeObserver(containerRef, resizeObserverOptions, onResize)
+
   return (
     <>
       <div
-        className='pdf-viewer border border-gray-200 rounded-md p-4 hide-scroll'
-        style={{ height: "calc(100% - 120px)", overflowY: "auto" }}
+        className='pdf-viewer hide-scroll'
+        style={{ width: "100%", maxWidth: "800px" }}
+        ref={setContainerRef}
       >
-        <DroppableViewer docRef={pdfRef} onDrop={handleDrop}>
+        <DroppableViewer onDrop={handleDrop} refSetter={setContainerRef}>
           <Document
             file={file}
             onLoadSuccess={onDocumentLoadSuccess}
-            className='flex justify-center'
+            options={options}
           >
-            <Page pageNumber={pageNumber} scale={scale} inputRef={pdfRef} />
+            {Array.from(new Array(numPages)).map((_, index) => (
+              <div className='mt-3' key={index}>
+                {index + 1} of {numPages}
+                <Page pageNumber={index + 1} width={containerWidth} />
+              </div>
+            ))}
           </Document>
           {droppedItems.map(({ type, page, x, y, content }, index) =>
             page === pageNumber ? (
@@ -56,6 +80,7 @@ const PdfViewer = ({
               >
                 {type === "text" && (
                   <TextBox
+                    key={index}
                     updateText={(content) => handleUpdate(index, content)}
                     text={content}
                     removeItem={() => removeItem(index)}
@@ -64,6 +89,7 @@ const PdfViewer = ({
                 )}
                 {type === "signature" && (
                   <SignatureContainer
+                    key={index}
                     signature={signature}
                     itemId={index}
                     removeItem={() => removeItem(index)}
@@ -71,6 +97,7 @@ const PdfViewer = ({
                 )}
                 {type === "initial" && (
                   <SignatureContainer
+                    key={index}
                     signature={initial}
                     itemId={index}
                     removeItem={() => removeItem(index)}
@@ -78,6 +105,7 @@ const PdfViewer = ({
                 )}
                 {type === "image" && (
                   <ImageContainer
+                    key={index}
                     itemId={index}
                     image={content}
                     updateImage={(content) => handleUpdate(index, content)}
@@ -88,70 +116,6 @@ const PdfViewer = ({
             ) : null
           )}
         </DroppableViewer>
-      </div>
-
-      {/* Controls */}
-      <div className='flex items-center justify-between mt-2 w-full'>
-        <button
-          className={`px-4 py-2 rounded-lg font-medium text-white ${
-            pageNumber > 1
-              ? "bg-blue-600 hover:bg-blue-700"
-              : "bg-gray-300 cursor-not-allowed"
-          }`}
-          onClick={handlePagePrev}
-          disabled={pageNumber <= 1}
-        >
-          Previous
-        </button>
-        <p className='text-sm text-gray-600'>
-          Page {pageNumber} of {numPages}
-        </p>
-        <button
-          className={`px-4 py-2 rounded-lg font-medium text-white ${
-            pageNumber < numPages
-              ? "bg-blue-600 hover:bg-blue-700"
-              : "bg-gray-300 cursor-not-allowed"
-          }`}
-          onClick={handlePageNext}
-          disabled={pageNumber >= numPages}
-        >
-          Next
-        </button>
-      </div>
-
-      {/* Additional Features */}
-      <div className='flex items-center justify-between mt-4 w-full'>
-        {/* Zoom Controls */}
-        <div className='flex items-center gap-2'>
-          <button
-            onClick={handleScaling}
-            className='px-3 py-2 bg-gray-200 rounded-lg hover:bg-gray-300'
-          >
-            -
-          </button>
-          <span className='font-medium text-gray-600'>
-            {(scale * 100).toFixed(0)}%
-          </span>
-          <button
-            onClick={handleScaling}
-            className='px-3 py-2 bg-gray-200 rounded-lg hover:bg-gray-300'
-          >
-            +
-          </button>
-        </div>
-
-        {/* Page Jump */}
-        {/* <div className='flex items-center gap-2'>
-          <span className='text-sm text-gray-600'>Go to page:</span>
-          <input
-            type='number'
-            min='1'
-            max={numPages}
-            value={pageNumber}
-            onChange={HAND}
-            className='w-16 px-2 py-1 border rounded-lg text-center text-gray-600'
-          />
-        </div> */}
       </div>
     </>
   )
