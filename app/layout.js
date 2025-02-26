@@ -14,6 +14,9 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Sign Doc",
   description: "Sign your document instantly",
+  icons: {
+    icon: "images/logo.webp"
+  }
 };
 
 export default function RootLayout({ children }) {

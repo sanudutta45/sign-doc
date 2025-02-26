@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Sign-Doc</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="sign-doc">Sign-Doc</h1>
+<p><img src="file:////images/logo.webp" alt="Sign-Doc Logo"></p>
+<h2 id="introduction">Introduction</h2>
+<p>Sign-Doc is an open-source web application designed to facilitate the digital signing of documents. It allows users to upload and sign documents digitally, reducing the need for paper-based processes.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li><strong>Upload Documents</strong>: Users can upload PDF or other supported document formats.</li>
+<li><strong>Digital Signatures</strong>: Sign documents electronically using a mouse or touch input.</li>
+<li><strong>Download Signed Documents</strong>: Save the signed document locally.</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Node.js (Latest LTS version)</li>
+<li>npm or yarn</li>
+</ul>
+<h3 id="steps">Steps</h3>
+<ol>
+<li>Clone the repository:<pre><code class="language-sh">git <span class="hljs-built_in">clone</span> https://github.com/sanudutta45/sign-doc.git
+<span class="hljs-built_in">cd</span> sign-doc
+</code></pre>
+</li>
+<li>Install dependencies:<pre><code class="language-sh">npm install
+</code></pre>
+</li>
+<li>Start the application:<pre><code class="language-sh">npm start
+</code></pre>
+</li>
+<li>Open <code>http://localhost:3000</code> in your browser.</li>
+</ol>
+<h2 id="usage">Usage</h2>
+<ol>
+<li>Open the application in a browser.</li>
+<li>Upload a document that needs to be signed.</li>
+<li>Sign the document using the available input options.</li>
+<li>Download the signed document.</li>
+</ol>
+<h2 id="tech-stack">Tech Stack</h2>
+<ul>
+<li><strong>Frontend</strong>: ReactJS</li>
+<li><strong>Backend</strong>: Node.js, Express.js</li>
+<li><strong>File Handling</strong>: Multer (for uploads)</li>
+</ul>
+<h2 id="contributing">Contributing</h2>
+<p>Contributions are welcome! Follow these steps to contribute:</p>
+<ol>
+<li>Fork the repository.</li>
+<li>Create a new branch: <code>git checkout -b feature-name</code></li>
+<li>Commit your changes: <code>git commit -m 'Add new feature'</code></li>
+<li>Push to the branch: <code>git push origin feature-name</code></li>
+<li>Open a pull request.</li>
+</ol>
+<h2 id="license">License</h2>
+<p>This project is licensed under the MIT License. See the <a href="LICENSE">LICENSE</a> file for more details.</p>
+<h2 id="contact">Contact</h2>
+<p>For any questions or suggestions, feel free to reach out to:</p>
+<ul>
+<li><strong>GitHub</strong>: <a href="https://github.com/sanudutta45">sanudutta45</a></li>
+</ul>
+<hr>
+<p>Happy Signing! ✍️</p>
+
+            
+            
+        </body>
+        </html>

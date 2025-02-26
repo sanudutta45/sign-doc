@@ -18,7 +18,7 @@ const DroppableViewer = ({ onDrop, children }) => {
           offset.y >= pdfRect.top &&
           offset.y <= pdfRect.bottom
         ) {
-          const x = offset.x - pdfRect.left
+          const x = (offset.x - pdfRect.left) 
           const y = offset.y - pdfRect.top
           onDrop(item, { x, y })
         }

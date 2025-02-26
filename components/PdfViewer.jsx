@@ -52,10 +52,10 @@ const PdfViewer = ({
     <>
       <div
         className='pdf-viewer hide-scroll'
-        style={{ width: "100%", maxWidth: "800px" }}
+        style={{ width: "100%", maxWidth: "800px", overflowX: "hidden" }}
         ref={setContainerRef}
       >
-        <DroppableViewer onDrop={handleDrop} refSetter={setContainerRef}>
+        <DroppableViewer onDrop={handleDrop}>
           <Document
             file={file}
             onLoadSuccess={onDocumentLoadSuccess}
